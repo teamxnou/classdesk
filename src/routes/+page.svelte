@@ -1,19 +1,17 @@
 <script lang="ts">
   import Logo from '../components/Logo.svelte'
 
-  import {
-    Search,
-    Star,
-    History,
-    Timer,
-    Presentation,
-    Dices,
-    UserCircle2,
-    ArrowDown01,
-    LayoutList,
-    Shuffle,
-    X
-  } from 'lucide-svelte'
+  import Search from '~icons/lucide/Search'
+  import Star from '~icons/lucide/Star'
+  import History from '~icons/lucide/History'
+  import Timer from '~icons/lucide/Timer'
+  import Presentation from '~icons/lucide/Presentation'
+  import Dices from '~icons/lucide/Dices'
+  import UserCircle2 from '~icons/lucide/UserCircle-2'
+  import ArrowDown01 from '~icons/lucide/ArrowDown-0-1'
+  import LayoutList from '~icons/lucide/LayoutList'
+  import Shuffle from '~icons/lucide/Shuffle'
+  import X from '~icons/lucide/X'
 
   let searchOpened = false
 </script>
@@ -29,55 +27,55 @@
             searchOpened = true
           }}
         >
-          <Search class="h-7 w-7" absoluteStrokeWidth={true} />
+          <Search class="h-7 w-7" />
         </button>
       </header>
       <main class="mt-5 flex grow flex-col gap-3">
         <section id="favorite">
           <h2 class="mb-2 flex items-center gap-1 text-lg font-medium text-neutral-500">
-            <Star class="h-6 w-6" absoluteStrokeWidth={true} />
+            <Star class="h-6 w-6" />
             즐겨찾기
           </h2>
           <ul class="flex w-full flex-wrap gap-3">
             <li>
               <a href="/" class="bg-neutral-800 text-white">
-                <Timer class="h-8 w-8" absoluteStrokeWidth={true} />
+                <Timer class="h-8 w-8" />
                 <h2 class="text-lg">타이머</h2>
               </a>
             </li>
             <li>
               <a href="/" class="bg-blue-500 text-white">
-                <Presentation class="h-8 w-8" absoluteStrokeWidth={true} />
+                <Presentation class="h-8 w-8" />
                 <h2 class="text-lg">판서</h2>
               </a>
             </li>
             <li>
               <a href="/" class="bg-rose-500 text-white">
-                <Dices class="h-8 w-8" absoluteStrokeWidth={true} />
+                <Dices class="h-8 w-8" />
                 <h2 class="text-lg">숫자 뽑기</h2>
               </a>
             </li>
             <li>
               <a href="/" class="bg-green-500 text-white">
-                <UserCircle2 class="h-8 w-8" absoluteStrokeWidth={true} />
+                <UserCircle2 class="h-8 w-8" />
                 <h2 class="text-lg">학생 뽑기</h2>
               </a>
             </li>
             <li>
               <a href="/" class="bg-yellow-400">
-                <ArrowDown01 class="h-8 w-8" absoluteStrokeWidth={true} />
+                <ArrowDown01 class="h-8 w-8" />
                 <h2 class="text-lg">순서 뽑기</h2>
               </a>
             </li>
             <li>
               <a href="/" class="bg-neutral-300">
-                <LayoutList class="h-8 w-8" absoluteStrokeWidth={true} />
+                <LayoutList class="h-8 w-8" />
                 <h2 class="text-lg">학생 기록</h2>
               </a>
             </li>
             <li>
               <a href="/" class="bg-violet-300">
-                <Shuffle class="h-8 w-8" absoluteStrokeWidth={true} />
+                <Shuffle class="h-8 w-8" />
                 <h2 class="text-lg">자리 뽑기</h2>
               </a>
             </li>
@@ -85,25 +83,25 @@
         </section>
         <section class="@container">
           <h2 class="mb-2 flex items-center gap-1 text-lg font-medium text-neutral-500">
-            <History class="h-6 w-6" absoluteStrokeWidth={true} />
+            <History class="h-6 w-6" />
             최근 사용
           </h2>
           <ul class="big-items grid-cols-2 @xl:grid-cols-3 @2xl:grid-cols-5">
             <li>
               <a href="/" class="bg-rose-500 text-white">
-                <Dices class="h-8 w-8" absoluteStrokeWidth={true} />
+                <Dices class="h-8 w-8" />
                 <h2 class="text-lg">숫자 뽑기</h2>
               </a>
             </li>
             <li>
               <a href="/" class="bg-violet-300">
-                <Shuffle class="h-8 w-8" absoluteStrokeWidth={true} />
+                <Shuffle class="h-8 w-8" />
                 <h2 class="text-lg">자리 뽑기</h2>
               </a>
             </li>
             <li>
               <a href="/" class="bg-blue-500 text-white">
-                <Presentation class="h-8 w-8" absoluteStrokeWidth={true} />
+                <Presentation class="h-8 w-8" />
                 <h2 class="text-lg">판서</h2>
               </a>
             </li>
@@ -130,11 +128,11 @@
             searchOpened = false
           }}
         >
-          <X class="h-7 w-7" absoluteStrokeWidth={true} />
+          <X class="h-7 w-7" />
         </button>
       </div>
       <div class="flex gap-2 rounded-xl bg-neutral-100 px-3 py-2">
-        <Search class="h-7 w-7 text-neutral-500" absoluteStrokeWidth={true} />
+        <Search class="h-7 w-7 text-neutral-500" />
         <input
           type="text"
           class="w-full bg-transparent focus:outline-none"
@@ -144,19 +142,19 @@
       <ul class="big-items grid-cols-2 @md:grid-cols-3 @lg:grid-cols-4">
         <li>
           <a href="/" class="bg-rose-500 text-white">
-            <Dices class="h-8 w-8" absoluteStrokeWidth={true} />
+            <Dices class="h-8 w-8" />
             <h2 class="text-lg">숫자 뽑기</h2>
           </a>
         </li>
         <li>
           <a href="/" class="bg-violet-300">
-            <Shuffle class="h-8 w-8" absoluteStrokeWidth={true} />
+            <Shuffle class="h-8 w-8" />
             <h2 class="text-lg">자리 뽑기</h2>
           </a>
         </li>
         <li>
           <a href="/" class="bg-blue-500 text-white">
-            <Presentation class="h-8 w-8" absoluteStrokeWidth={true} />
+            <Presentation class="h-8 w-8" />
             <h2 class="text-lg">판서</h2>
           </a>
         </li>
