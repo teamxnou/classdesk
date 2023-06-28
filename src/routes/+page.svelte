@@ -11,8 +11,11 @@
     UserCircle2,
     ArrowDown01,
     LayoutList,
-    Shuffle
+    Shuffle,
+    X
   } from 'lucide-svelte'
+
+  let searchOpened = false
 </script>
 
 <div class="flex h-screen w-screen justify-center bg-neutral-100">
@@ -20,7 +23,12 @@
     <div class="container mx-3 mt-10 flex max-w-4xl flex-col sm:mx-8 lg:mx-10 xl:mx-10">
       <header class="flex items-center justify-between">
         <Logo />
-        <button class="rounded-xl p-3 hover:bg-neutral-200 xl:hidden">
+        <button
+          class="rounded-xl p-3 hover:bg-neutral-200 xl:hidden"
+          on:click={() => {
+            searchOpened = true
+          }}
+        >
           <Search class="h-7 w-7" absoluteStrokeWidth={true} />
         </button>
       </header>
@@ -80,7 +88,7 @@
             <History class="h-6 w-6" absoluteStrokeWidth={true} />
             최근 사용
           </h2>
-          <ul class="big-items grid-cols-2 @xl:grid-cols-3 @2xl:grid-cols-4">
+          <ul class="big-items grid-cols-2 @xl:grid-cols-3 @2xl:grid-cols-5">
             <li>
               <a href="/" class="bg-rose-500 text-white">
                 <Dices class="h-8 w-8" absoluteStrokeWidth={true} />
@@ -103,12 +111,28 @@
         </section>
       </main>
     </div>
+    {#if searchOpened}
+      <div class="absolute left-0 top-0 h-screen w-screen bg-black/20" />
+    {/if}
     <aside
-      class="m-2 hidden w-full max-w-md flex-col gap-3 rounded-xl bg-white p-5 pt-8 @container xl:flex"
+      class="m-2 hidden w-full max-w-md flex-col z-50 gap-3 rounded-xl bg-white p-5 pt-8 @container xl:flex"
+      class:mobileSearchOpened={searchOpened}
     >
-      <h1 class="ml-2 cursor-default select-none font-mono text-3xl font-bold sm:text-4xl">
-        Search
-      </h1>
+      <div class="flex items-center justify-between">
+        <h1
+          class="ml-1 cursor-default select-none font-mono text-3xl font-bold sm:text-4xl lg:ml-2"
+        >
+          Search
+        </h1>
+        <button
+          class="rounded-xl p-3 hover:bg-neutral-200 xl:hidden"
+          on:click={() => {
+            searchOpened = false
+          }}
+        >
+          <X class="h-7 w-7" absoluteStrokeWidth={true} />
+        </button>
+      </div>
       <div class="flex gap-2 rounded-xl bg-neutral-100 px-3 py-2">
         <Search class="h-7 w-7 text-neutral-500" absoluteStrokeWidth={true} />
         <input
@@ -117,7 +141,7 @@
           placeholder="도구 검색"
         />
       </div>
-      <ul class="big-items grid-cols-2">
+      <ul class="big-items grid-cols-2 @md:grid-cols-3 @lg:grid-cols-4">
         <li>
           <a href="/" class="bg-rose-500 text-white">
             <Dices class="h-8 w-8" absoluteStrokeWidth={true} />
@@ -152,5 +176,9 @@
   }
   ul.big-items li a {
     @apply flex h-24 flex-col justify-between rounded-xl p-3 pb-2 transition duration-150 hover:-translate-y-1;
+  }
+  .mobileSearchOpened {
+    @apply absolute left-0 top-0 z-10 m-0 flex h-full w-full max-w-none rounded-none p-3 pt-10 sm:p-8 sm:pt-10
+      md:inset-0 md:m-auto md:h-2/3 md:max-h-[45rem] md:w-[40rem] md:rounded-xl lg:h-[50rem] lg:w-[50rem];
   }
 </style>
