@@ -1,5 +1,7 @@
 <script lang="ts">
   import Logo from '../components/Logo.svelte'
+  import FavItem from '../components/FavItem.svelte'
+  import ToolItem from '../components/ToolItem.svelte'
 
   import Search from '~icons/lucide/Search'
   import Star from '~icons/lucide/Star'
@@ -38,46 +40,25 @@
           </h2>
           <ul class="flex w-full flex-wrap gap-3">
             <li>
-              <a href="/" class="bg-neutral-800 text-white">
-                <Timer class="h-8 w-8" />
-                <h2 class="text-lg">타이머</h2>
-              </a>
+              <FavItem href="/" color="bg-neutral-800 text-white" title="타이머" icon={Timer} />
             </li>
             <li>
-              <a href="/" class="bg-blue-500 text-white">
-                <Presentation class="h-8 w-8" />
-                <h2 class="text-lg">판서</h2>
-              </a>
+              <FavItem href="/" color="bg-blue-500 text-white" title="판서" icon={Presentation} />
             </li>
             <li>
-              <a href="/" class="bg-rose-500 text-white">
-                <Dices class="h-8 w-8" />
-                <h2 class="text-lg">숫자 뽑기</h2>
-              </a>
+              <FavItem href="/" color="bg-rose-500 text-white" title="숫자 뽑기" icon={Dices} />
             </li>
             <li>
-              <a href="/" class="bg-green-500 text-white">
-                <UserCircle2 class="h-8 w-8" />
-                <h2 class="text-lg">학생 뽑기</h2>
-              </a>
+              <FavItem href="/" color="bg-green-500 text-white" title="학생 뽑기" icon={UserCircle2} />
             </li>
             <li>
-              <a href="/" class="bg-yellow-400">
-                <ArrowDown01 class="h-8 w-8" />
-                <h2 class="text-lg">순서 뽑기</h2>
-              </a>
+              <FavItem href="/" color="bg-yellow-400" title="순서 뽑기" icon={ArrowDown01} />
             </li>
             <li>
-              <a href="/" class="bg-neutral-300">
-                <LayoutList class="h-8 w-8" />
-                <h2 class="text-lg">학생 기록</h2>
-              </a>
+              <FavItem href="/" color="bg-neutral-300" title="학생 기록" icon={LayoutList} />
             </li>
             <li>
-              <a href="/" class="bg-violet-300">
-                <Shuffle class="h-8 w-8" />
-                <h2 class="text-lg">자리 뽑기</h2>
-              </a>
+              <FavItem href="/" color="bg-violet-300" title="자리 뽑기" icon={Shuffle} />
             </li>
           </ul>
         </section>
@@ -88,22 +69,13 @@
           </h2>
           <ul class="big-items grid-cols-2 @xl:grid-cols-3 @2xl:grid-cols-5">
             <li>
-              <a href="/" class="bg-rose-500 text-white">
-                <Dices class="h-8 w-8" />
-                <h2 class="text-lg">숫자 뽑기</h2>
-              </a>
+              <ToolItem href="/" color="bg-rose-500 text-white" title="숫자 뽑기" icon={Dices} />
             </li>
             <li>
-              <a href="/" class="bg-violet-300">
-                <Shuffle class="h-8 w-8" />
-                <h2 class="text-lg">자리 뽑기</h2>
-              </a>
+              <ToolItem href="/" color="bg-violet-300" title="자리 뽑기" icon={Shuffle} />
             </li>
             <li>
-              <a href="/" class="bg-blue-500 text-white">
-                <Presentation class="h-8 w-8" />
-                <h2 class="text-lg">판서</h2>
-              </a>
+              <ToolItem href="/" color="bg-blue-500 text-white" title="판서" icon={Presentation} />
             </li>
           </ul>
         </section>
@@ -113,7 +85,7 @@
       <div class="absolute left-0 top-0 h-screen w-screen bg-black/20" />
     {/if}
     <aside
-      class="m-2 hidden w-full max-w-md flex-col z-50 gap-3 rounded-xl bg-white p-5 pt-8 @container xl:flex"
+      class="z-50 m-2 hidden w-full max-w-md flex-col gap-3 rounded-xl bg-white p-5 pt-8 @container xl:flex"
       class:mobileSearchOpened={searchOpened}
     >
       <div class="flex items-center justify-between">
@@ -141,22 +113,13 @@
       </div>
       <ul class="big-items grid-cols-2 @md:grid-cols-3 @lg:grid-cols-4">
         <li>
-          <a href="/" class="bg-rose-500 text-white">
-            <Dices class="h-8 w-8" />
-            <h2 class="text-lg">숫자 뽑기</h2>
-          </a>
+          <ToolItem href="/" color="bg-rose-500 text-white" icon={Dices} title="숫자 뽑기" />
         </li>
         <li>
-          <a href="/" class="bg-violet-300">
-            <Shuffle class="h-8 w-8" />
-            <h2 class="text-lg">자리 뽑기</h2>
-          </a>
+          <ToolItem href="/" color="bg-violet-300" icon={Shuffle} title="자리 뽑기" />
         </li>
         <li>
-          <a href="/" class="bg-blue-500 text-white">
-            <Presentation class="h-8 w-8" />
-            <h2 class="text-lg">판서</h2>
-          </a>
+          <ToolItem href="/" color="bg-blue-500 text-white" icon={Presentation} title="판서" />
         </li>
       </ul>
     </aside>
@@ -164,16 +127,8 @@
 </div>
 
 <style lang="postcss">
-  #favorite ul li a {
-    @apply flex items-center gap-2 rounded-xl px-3 py-2
-      transition duration-150 hover:-translate-y-1 lg:h-20 lg:w-24 lg:flex-col lg:justify-between
-      lg:gap-0 lg:pb-2 lg:pt-3;
-  }
   ul.big-items {
     @apply grid gap-3;
-  }
-  ul.big-items li a {
-    @apply flex h-24 flex-col justify-between rounded-xl p-3 pb-2 transition duration-150 hover:-translate-y-1;
   }
   .mobileSearchOpened {
     @apply absolute left-0 top-0 z-10 m-0 flex h-full w-full max-w-none rounded-none p-3 pt-10 sm:p-8 sm:pt-10
