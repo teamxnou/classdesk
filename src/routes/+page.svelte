@@ -67,7 +67,7 @@
             <History class="h-6 w-6" />
             최근 사용
           </h2>
-          <ul class="big-items grid-cols-2 @xl:grid-cols-3 @2xl:grid-cols-5">
+          <ul class="grid grid-cols-2 gap-3 @xl:grid-cols-3 @2xl:grid-cols-5">
             <li>
               <ToolItem href="/" color="bg-rose-500 text-white" title="숫자 뽑기" icon={Dices} />
             </li>
@@ -111,7 +111,7 @@
           placeholder="도구 검색"
         />
       </div>
-      <ul class="big-items grid-cols-2 @md:grid-cols-3 @lg:grid-cols-4">
+      <ul class="grid grid-cols-2 gap-3 @md:grid-cols-3 @lg:grid-cols-4">
         <li>
           <ToolItem href="/" color="bg-rose-500 text-white" icon={Dices} title="숫자 뽑기" />
         </li>
@@ -127,9 +127,6 @@
 </div>
 
 <style lang="postcss">
-  ul.big-items {
-    @apply grid gap-3;
-  }
   .mobileSearchOpened {
     @apply absolute left-0 top-0 z-10 m-0 flex h-full w-full max-w-none rounded-none p-3 pt-10 sm:p-8 sm:pt-10
       md:inset-0 md:m-auto md:h-2/3 md:max-h-[45rem] md:w-[40rem] md:rounded-xl lg:h-[50rem] lg:w-[50rem];
