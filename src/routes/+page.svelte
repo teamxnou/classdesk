@@ -1,5 +1,6 @@
 <script lang="ts">
   import Logo from '../components/Logo.svelte'
+  import FavItem from '../components/FavItem.svelte'
   import ToolItem from '../components/ToolItem.svelte'
 
   import Search from '~icons/lucide/Search'
@@ -39,46 +40,25 @@
           </h2>
           <ul class="flex w-full flex-wrap gap-3">
             <li>
-              <a href="/" class="bg-neutral-800 text-white">
-                <Timer class="h-8 w-8" />
-                <h2 class="text-lg">타이머</h2>
-              </a>
+              <FavItem href="/" color="bg-neutral-800 text-white" title="타이머" icon={Timer} />
             </li>
             <li>
-              <a href="/" class="bg-blue-500 text-white">
-                <Presentation class="h-8 w-8" />
-                <h2 class="text-lg">판서</h2>
-              </a>
+              <FavItem href="/" color="bg-blue-500 text-white" title="판서" icon={Presentation} />
             </li>
             <li>
-              <a href="/" class="bg-rose-500 text-white">
-                <Dices class="h-8 w-8" />
-                <h2 class="text-lg">숫자 뽑기</h2>
-              </a>
+              <FavItem href="/" color="bg-rose-500 text-white" title="숫자 뽑기" icon={Dices} />
             </li>
             <li>
-              <a href="/" class="bg-green-500 text-white">
-                <UserCircle2 class="h-8 w-8" />
-                <h2 class="text-lg">학생 뽑기</h2>
-              </a>
+              <FavItem href="/" color="bg-green-500 text-white" title="학생 뽑기" icon={UserCircle2} />
             </li>
             <li>
-              <a href="/" class="bg-yellow-400">
-                <ArrowDown01 class="h-8 w-8" />
-                <h2 class="text-lg">순서 뽑기</h2>
-              </a>
+              <FavItem href="/" color="bg-yellow-400" title="순서 뽑기" icon={ArrowDown01} />
             </li>
             <li>
-              <a href="/" class="bg-neutral-300">
-                <LayoutList class="h-8 w-8" />
-                <h2 class="text-lg">학생 기록</h2>
-              </a>
+              <FavItem href="/" color="bg-neutral-300" title="학생 기록" icon={LayoutList} />
             </li>
             <li>
-              <a href="/" class="bg-violet-300">
-                <Shuffle class="h-8 w-8" />
-                <h2 class="text-lg">자리 뽑기</h2>
-              </a>
+              <FavItem href="/" color="bg-violet-300" title="자리 뽑기" icon={Shuffle} />
             </li>
           </ul>
         </section>
