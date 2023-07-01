@@ -6,14 +6,12 @@
   import Search from '~icons/lucide/Search'
   import Star from '~icons/lucide/Star'
   import History from '~icons/lucide/History'
-  import Timer from '~icons/lucide/Timer'
   import Presentation from '~icons/lucide/Presentation'
   import Dices from '~icons/lucide/Dices'
-  import UserCircle2 from '~icons/lucide/UserCircle-2'
-  import ArrowDown01 from '~icons/lucide/ArrowDown-0-1'
-  import LayoutList from '~icons/lucide/LayoutList'
   import Shuffle from '~icons/lucide/Shuffle'
   import X from '~icons/lucide/X'
+
+  import { tools } from '../tools'
 
   let searchOpened = false
 </script>
@@ -39,27 +37,11 @@
             즐겨찾기
           </h2>
           <ul class="flex w-full flex-wrap gap-3">
-            <li>
-              <FavItem href="/" color="bg-neutral-800 text-white" title="타이머" icon={Timer} />
-            </li>
-            <li>
-              <FavItem href="/" color="bg-blue-500 text-white" title="판서" icon={Presentation} />
-            </li>
-            <li>
-              <FavItem href="/" color="bg-rose-500 text-white" title="숫자 뽑기" icon={Dices} />
-            </li>
-            <li>
-              <FavItem href="/" color="bg-green-500 text-white" title="학생 뽑기" icon={UserCircle2} />
-            </li>
-            <li>
-              <FavItem href="/" color="bg-yellow-400" title="순서 뽑기" icon={ArrowDown01} />
-            </li>
-            <li>
-              <FavItem href="/" color="bg-neutral-300" title="학생 기록" icon={LayoutList} />
-            </li>
-            <li>
-              <FavItem href="/" color="bg-violet-300" title="자리 뽑기" icon={Shuffle} />
-            </li>
+            {#each tools as tool}
+              <li>
+                <FavItem href={tool.href} color={tool.color} title={tool.name} icon={tool.icon} />
+              </li>
+            {/each}
           </ul>
         </section>
         <section class="@container">
@@ -68,15 +50,11 @@
             최근 사용
           </h2>
           <ul class="grid grid-cols-2 gap-3 @xl:grid-cols-3 @2xl:grid-cols-5">
-            <li>
-              <ToolItem href="/" color="bg-rose-500 text-white" title="숫자 뽑기" icon={Dices} />
-            </li>
-            <li>
-              <ToolItem href="/" color="bg-violet-300" title="자리 뽑기" icon={Shuffle} />
-            </li>
-            <li>
-              <ToolItem href="/" color="bg-blue-500 text-white" title="판서" icon={Presentation} />
-            </li>
+            {#each tools as tool}
+              <li>
+                <ToolItem href={tool.href} color={tool.color} title={tool.name} icon={tool.icon} />
+              </li>
+            {/each}
           </ul>
         </section>
       </main>
@@ -112,15 +90,11 @@
         />
       </div>
       <ul class="grid grid-cols-2 gap-3 @md:grid-cols-3 @lg:grid-cols-4">
-        <li>
-          <ToolItem href="/" color="bg-rose-500 text-white" icon={Dices} title="숫자 뽑기" />
-        </li>
-        <li>
-          <ToolItem href="/" color="bg-violet-300" icon={Shuffle} title="자리 뽑기" />
-        </li>
-        <li>
-          <ToolItem href="/" color="bg-blue-500 text-white" icon={Presentation} title="판서" />
-        </li>
+        {#each tools as tool}
+          <li>
+            <ToolItem href={tool.href} color={tool.color} title={tool.name} icon={tool.icon} />
+          </li>
+        {/each}
       </ul>
     </aside>
   </div>
