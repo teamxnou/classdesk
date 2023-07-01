@@ -9,13 +9,18 @@
   import History from '~icons/lucide/History'
 
   import { tools } from '../tools'
+  import { favorite } from '../stores/stores'
+
+  $: fav = tools.filter((tool) => $favorite.includes(tool.href.replace('/tools/', '')))
 
   let searchOpened = false
 </script>
 
 <div class="flex h-screen w-screen justify-center bg-neutral-100">
   <div class="flex justify-center xl:container xl:justify-normal">
-    <div class="container mx-3 mt-10 flex max-w-4xl flex-col sm:mx-8 lg:mx-10 xl:mx-10">
+    <div
+      class="container mx-3 mt-10 flex max-w-4xl flex-col sm:mx-8 md:w-[40rem] lg:mx-10 lg:w-[55rem] xl:mx-10"
+    >
       <header class="flex items-center justify-between">
         <Logo />
         <button
@@ -34,7 +39,7 @@
             즐겨찾기
           </h2>
           <ul class="flex w-full flex-wrap gap-3">
-            {#each tools as tool}
+            {#each fav as tool}
               <li>
                 <FavItem href={tool.href} color={tool.color} title={tool.name} icon={tool.icon} />
               </li>
@@ -59,6 +64,6 @@
     {#if searchOpened}
       <div class="absolute left-0 top-0 h-screen w-screen bg-black/20" />
     {/if}
-    <SideSearch bind:searchOpened={searchOpened} />
+    <SideSearch bind:searchOpened />
   </div>
 </div>
