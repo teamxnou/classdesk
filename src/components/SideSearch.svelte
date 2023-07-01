@@ -7,6 +7,14 @@
   import { tools } from '../tools'
 
   export let searchOpened = false
+
+  let q = ''
+  $: searched = tools.filter((tool) => {
+    const name = tool.name.replaceAll(' ', '').toLowerCase()
+    const tags = tool.tags.join('').replaceAll(' ', '').toLowerCase()
+    const query = q.replaceAll(' ', '').toLowerCase()
+    return name.includes(query) || tags.includes(query)
+  })
 </script>
 
 <aside
@@ -28,10 +36,15 @@
   </div>
   <div class="flex gap-2 rounded-xl bg-neutral-100 px-3 py-2">
     <Search class="h-7 w-7 text-neutral-500" />
-    <input type="text" class="w-full bg-transparent focus:outline-none" placeholder="도구 검색" />
+    <input
+      type="text"
+      class="w-full bg-transparent focus:outline-none"
+      placeholder="도구 검색"
+      bind:value={q}
+    />
   </div>
   <ul class="grid grid-cols-2 gap-3 @md:grid-cols-3 @lg:grid-cols-4">
-    {#each tools as tool}
+    {#each searched as tool}
       <li>
         <ToolItem href={tool.href} color={tool.color} title={tool.name} icon={tool.icon} />
       </li>
