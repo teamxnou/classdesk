@@ -2,18 +2,13 @@
   import Logo from '../components/Logo.svelte'
   import FavItem from '../components/FavItem.svelte'
   import ToolItem from '../components/ToolItem.svelte'
+  import SideSearch from '../components/SideSearch.svelte'
 
   import Search from '~icons/lucide/Search'
   import Star from '~icons/lucide/Star'
   import History from '~icons/lucide/History'
-  import Timer from '~icons/lucide/Timer'
-  import Presentation from '~icons/lucide/Presentation'
-  import Dices from '~icons/lucide/Dices'
-  import UserCircle2 from '~icons/lucide/UserCircle-2'
-  import ArrowDown01 from '~icons/lucide/ArrowDown-0-1'
-  import LayoutList from '~icons/lucide/LayoutList'
-  import Shuffle from '~icons/lucide/Shuffle'
-  import X from '~icons/lucide/X'
+
+  import { tools } from '../tools'
 
   let searchOpened = false
 </script>
@@ -39,27 +34,11 @@
             즐겨찾기
           </h2>
           <ul class="flex w-full flex-wrap gap-3">
-            <li>
-              <FavItem href="/" color="bg-neutral-800 text-white" title="타이머" icon={Timer} />
-            </li>
-            <li>
-              <FavItem href="/" color="bg-blue-500 text-white" title="판서" icon={Presentation} />
-            </li>
-            <li>
-              <FavItem href="/" color="bg-rose-500 text-white" title="숫자 뽑기" icon={Dices} />
-            </li>
-            <li>
-              <FavItem href="/" color="bg-green-500 text-white" title="학생 뽑기" icon={UserCircle2} />
-            </li>
-            <li>
-              <FavItem href="/" color="bg-yellow-400" title="순서 뽑기" icon={ArrowDown01} />
-            </li>
-            <li>
-              <FavItem href="/" color="bg-neutral-300" title="학생 기록" icon={LayoutList} />
-            </li>
-            <li>
-              <FavItem href="/" color="bg-violet-300" title="자리 뽑기" icon={Shuffle} />
-            </li>
+            {#each tools as tool}
+              <li>
+                <FavItem href={tool.href} color={tool.color} title={tool.name} icon={tool.icon} />
+              </li>
+            {/each}
           </ul>
         </section>
         <section class="@container">
@@ -68,15 +47,11 @@
             최근 사용
           </h2>
           <ul class="grid grid-cols-2 gap-3 @xl:grid-cols-3 @2xl:grid-cols-5">
-            <li>
-              <ToolItem href="/" color="bg-rose-500 text-white" title="숫자 뽑기" icon={Dices} />
-            </li>
-            <li>
-              <ToolItem href="/" color="bg-violet-300" title="자리 뽑기" icon={Shuffle} />
-            </li>
-            <li>
-              <ToolItem href="/" color="bg-blue-500 text-white" title="판서" icon={Presentation} />
-            </li>
+            {#each tools as tool}
+              <li>
+                <ToolItem href={tool.href} color={tool.color} title={tool.name} icon={tool.icon} />
+              </li>
+            {/each}
           </ul>
         </section>
       </main>
@@ -84,51 +59,6 @@
     {#if searchOpened}
       <div class="absolute left-0 top-0 h-screen w-screen bg-black/20" />
     {/if}
-    <aside
-      class="z-50 m-2 hidden w-full max-w-md flex-col gap-3 rounded-xl bg-white p-5 pt-8 @container xl:flex"
-      class:mobileSearchOpened={searchOpened}
-    >
-      <div class="flex items-center justify-between">
-        <h1
-          class="ml-1 cursor-default select-none font-mono text-3xl font-bold sm:text-4xl lg:ml-2"
-        >
-          Search
-        </h1>
-        <button
-          class="rounded-xl p-3 hover:bg-neutral-200 xl:hidden"
-          on:click={() => {
-            searchOpened = false
-          }}
-        >
-          <X class="h-7 w-7" />
-        </button>
-      </div>
-      <div class="flex gap-2 rounded-xl bg-neutral-100 px-3 py-2">
-        <Search class="h-7 w-7 text-neutral-500" />
-        <input
-          type="text"
-          class="w-full bg-transparent focus:outline-none"
-          placeholder="도구 검색"
-        />
-      </div>
-      <ul class="grid grid-cols-2 gap-3 @md:grid-cols-3 @lg:grid-cols-4">
-        <li>
-          <ToolItem href="/" color="bg-rose-500 text-white" icon={Dices} title="숫자 뽑기" />
-        </li>
-        <li>
-          <ToolItem href="/" color="bg-violet-300" icon={Shuffle} title="자리 뽑기" />
-        </li>
-        <li>
-          <ToolItem href="/" color="bg-blue-500 text-white" icon={Presentation} title="판서" />
-        </li>
-      </ul>
-    </aside>
+    <SideSearch bind:searchOpened={searchOpened} />
   </div>
 </div>
-
-<style lang="postcss">
-  .mobileSearchOpened {
-    @apply absolute left-0 top-0 z-10 m-0 flex h-full w-full max-w-none rounded-none p-3 pt-10 sm:p-8 sm:pt-10
-      md:inset-0 md:m-auto md:h-2/3 md:max-h-[45rem] md:w-[40rem] md:rounded-xl lg:h-[50rem] lg:w-[50rem];
-  }
-</style>
