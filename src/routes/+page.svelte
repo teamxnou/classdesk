@@ -43,7 +43,7 @@
               즐겨찾기
             </h2>
             <ul class="flex w-full flex-wrap gap-3">
-              {#each fav as tool}
+              {#each fav as tool (tool.href)}
                 <li>
                   <FavItem href={tool.href} color={tool.color} title={tool.name} icon={tool.icon} />
                 </li>
