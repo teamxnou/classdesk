@@ -5,7 +5,7 @@ import User2 from '~icons/lucide/User-2'
 import ArrowDown01 from '~icons/lucide/ArrowDown-0-1'
 import ScrollText from '~icons/lucide/ScrollText'
 
-interface Tool {
+export interface Tool {
   icon: typeof import('svelte')['SvelteComponent']
   name: string
   href: string
