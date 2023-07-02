@@ -2,7 +2,7 @@
   import Star from '~icons/lucide/Star'
   import FilledStar from '~icons/filled/FilledStar'
 
-  import { favorite } from '../stores/stores'
+  import { favorite, recent } from '../stores/stores'
 
   export let icon: any, title: string, href: string, color: string
 
@@ -16,11 +16,18 @@
       }
     })
   }
+  function rec() {
+    recent.set([
+      href.replace('/tools/', ''),
+      ...$recent.filter((r) => r !== href.replace('/tools/', ''))
+    ])
+  }
 </script>
 
 <a
   {href}
   class="flex h-24 flex-col justify-between rounded-xl p-2 pb-2 transition duration-150 hover:-translate-y-1 {color}"
+  on:click={rec}
 >
   <div class="flex justify-between">
     <svelte:component this={icon} class="m-1 h-8 w-8" />
