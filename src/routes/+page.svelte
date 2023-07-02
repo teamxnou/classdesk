@@ -12,9 +12,12 @@
   import History from '~icons/lucide/History'
 
   import { tools } from '../tools'
-  import { favorite } from '../stores/stores'
+  import { favorite, recent } from '../stores/stores'
 
   $: fav = tools.filter((tool) => $favorite.includes(tool.href.replace('/tools/', '')))
+  $: rec = $recent.map((tool) => tools.find((t) => t.href.replace('/tools/', '') === tool)) as [
+    ...typeof tools
+  ]
 
   let searchOpened = false
 </script>
@@ -57,7 +60,7 @@
             최근 사용
           </h2>
           <ul class="grid grid-cols-2 gap-3 @xl:grid-cols-3 @2xl:grid-cols-5">
-            {#each tools as tool}
+            {#each rec as tool (tool.href)}
               <li>
                 <ToolItem href={tool.href} color={tool.color} title={tool.name} icon={tool.icon} />
               </li>
@@ -67,7 +70,10 @@
       </main>
     </div>
     {#if searchOpened}
-      <div class="absolute left-0 top-0 h-screen w-screen bg-black/20" transition:fade={{ duration: 200 }} />
+      <div
+        class="absolute left-0 top-0 h-screen w-screen bg-black/20"
+        transition:fade={{ duration: 200 }}
+      />
     {/if}
     <SideSearch bind:searchOpened />
   </div>
