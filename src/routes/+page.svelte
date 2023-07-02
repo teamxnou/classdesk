@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { fade } from 'svelte/transition'
+
   import Logo from '../components/Logo.svelte'
   import FavItem from '../components/FavItem.svelte'
   import ToolItem from '../components/ToolItem.svelte'
@@ -64,7 +66,7 @@
       </main>
     </div>
     {#if searchOpened}
-      <div class="absolute left-0 top-0 h-screen w-screen bg-black/20" />
+      <div class="absolute left-0 top-0 h-screen w-screen bg-black/20" transition:fade={{ duration: 200 }} />
     {/if}
     <SideSearch bind:searchOpened />
   </div>
