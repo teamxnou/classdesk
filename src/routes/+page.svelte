@@ -33,19 +33,21 @@
         </button>
       </header>
       <main class="mt-5 flex grow flex-col gap-3">
-        <section id="favorite">
-          <h2 class="mb-2 flex items-center gap-1 text-lg font-medium text-neutral-500">
-            <Star class="h-6 w-6" />
-            즐겨찾기
-          </h2>
-          <ul class="flex w-full flex-wrap gap-3">
-            {#each fav as tool}
-              <li>
-                <FavItem href={tool.href} color={tool.color} title={tool.name} icon={tool.icon} />
-              </li>
-            {/each}
-          </ul>
-        </section>
+        {#if $favorite.length > 0}
+          <section id="favorite">
+            <h2 class="mb-2 flex items-center gap-1 text-lg font-medium text-neutral-500">
+              <Star class="h-6 w-6" />
+              즐겨찾기
+            </h2>
+            <ul class="flex w-full flex-wrap gap-3">
+              {#each fav as tool}
+                <li>
+                  <FavItem href={tool.href} color={tool.color} title={tool.name} icon={tool.icon} />
+                </li>
+              {/each}
+            </ul>
+          </section>
+        {/if}
         <section class="@container">
           <h2 class="mb-2 flex items-center gap-1 text-lg font-medium text-neutral-500">
             <History class="h-6 w-6" />
