@@ -34,7 +34,7 @@
     <button
       class="rounded-lg p-2 hover:bg-black/10"
       class:fill-current={isFavorite}
-      on:click|preventDefault={fav}
+      on:click|preventDefault|stopPropagation={fav}
     >
       {#if isFavorite}
         <FilledStar class="h-6 w-6" />
