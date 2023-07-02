@@ -1,4 +1,7 @@
 <script lang="ts">
+  import { fade, slide } from 'svelte/transition'
+  import { cubicInOut } from 'svelte/easing'
+
   import Logo from '../components/Logo.svelte'
   import FavItem from '../components/FavItem.svelte'
   import ToolItem from '../components/ToolItem.svelte'
@@ -34,13 +37,13 @@
       </header>
       <main class="mt-5 flex grow flex-col gap-3">
         {#if $favorite.length > 0}
-          <section id="favorite">
+          <section id="favorite" transition:slide={{ duration: 500, easing: cubicInOut }}>
             <h2 class="mb-2 flex items-center gap-1 text-lg font-medium text-neutral-500">
               <Star class="h-6 w-6" />
               즐겨찾기
             </h2>
             <ul class="flex w-full flex-wrap gap-3">
-              {#each fav as tool}
+              {#each fav as tool (tool.href)}
                 <li>
                   <FavItem href={tool.href} color={tool.color} title={tool.name} icon={tool.icon} />
                 </li>
@@ -64,7 +67,7 @@
       </main>
     </div>
     {#if searchOpened}
-      <div class="absolute left-0 top-0 h-screen w-screen bg-black/20" />
+      <div class="absolute left-0 top-0 h-screen w-screen bg-black/20" transition:fade={{ duration: 200 }} />
     {/if}
     <SideSearch bind:searchOpened />
   </div>
