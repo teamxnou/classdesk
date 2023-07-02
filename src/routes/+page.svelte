@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { fade } from 'svelte/transition'
+  import { fade, slide } from 'svelte/transition'
+  import { cubicInOut } from 'svelte/easing'
 
   import Logo from '../components/Logo.svelte'
   import FavItem from '../components/FavItem.svelte'
@@ -36,7 +37,7 @@
       </header>
       <main class="mt-5 flex grow flex-col gap-3">
         {#if $favorite.length > 0}
-          <section id="favorite">
+          <section id="favorite" transition:slide={{ duration: 500, easing: cubicInOut }}>
             <h2 class="mb-2 flex items-center gap-1 text-lg font-medium text-neutral-500">
               <Star class="h-6 w-6" />
               즐겨찾기
