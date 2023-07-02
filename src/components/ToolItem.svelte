@@ -1,4 +1,7 @@
 <script lang="ts">
+  import { slide } from 'svelte/transition'
+  import { cubicInOut } from 'svelte/easing'
+
   import Star from '~icons/lucide/Star'
   import FilledStar from '~icons/filled/FilledStar'
 
@@ -27,6 +30,7 @@
 <a
   {href}
   class="flex h-24 flex-col justify-between rounded-xl p-2 pb-2 transition duration-150 hover:-translate-y-1 {color}"
+  transition:slide={{ axis: 'x', duration: 500, easing: cubicInOut }}
   on:click={rec}
 >
   <div class="flex justify-between">

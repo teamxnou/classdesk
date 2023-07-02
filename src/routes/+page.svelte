@@ -60,7 +60,7 @@
             최근 사용
           </h2>
           <ul class="grid grid-cols-2 gap-3 @xl:grid-cols-3 @2xl:grid-cols-5">
-            {#each rec as tool}
+            {#each rec as tool (tool.href)}
               <li>
                 <ToolItem href={tool.href} color={tool.color} title={tool.name} icon={tool.icon} />
               </li>
