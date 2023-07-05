@@ -6,6 +6,18 @@
 
   let p = 0
   $: color = p < 50 ? '#22c55e' : p < 80 ? '#fde047' : '#ef4444'
+
+  let running = false
+  let sec = 0
+  $: formattedTime = new Date(sec * 1000).toISOString().substring(11, 19)
+
+  if (typeof window !== 'undefined') {
+    window.setInterval(() => {
+      if (running && sec > 0) {
+        sec -= 1
+      }
+    }, 1000)
+  }
 </script>
 
 <div class="flex h-screen w-screen flex-col gap-3 bg-neutral-100 p-5">
@@ -17,13 +29,14 @@
     />
   </div>
   <div class="flex grow items-center justify-center font-mono text-[17vw] font-extrabold">
-    00:00:00
+    {formattedTime}
   </div>
   <div class="mb-10 flex items-center justify-around">
     <div class="flex gap-5">
       {#each [1, 3, 5, 10, 20, 30] as min}
         <button
           class="flex h-20 w-20 items-center justify-center rounded-full bg-neutral-200 p-5 font-mono text-4xl hover:bg-neutral-300"
+          on:click={() => (sec = min * 60)}
         >
           {min}
         </button>
@@ -31,12 +44,22 @@
     </div>
     <div class="flex gap-5">
       <button
-        class="flex h-20 w-52 items-center justify-center rounded-full bg-orange-500 p-5 text-white hover:bg-orange-600"
+        class="flex h-20 w-52 items-center justify-center rounded-full bg-orange-500 p-5 text-white hover:bg-orange-600 disabled:hover:bg-orange-400 disabled:bg-orange-400 disabled:cursor-not-allowed"
+        disabled={!running && sec == 0}
+        on:click={() => (running = !running)}
       >
-        <Play class="h-10 w-10" />
+        {#if running}
+          <Pause class="h-10 w-10" />
+        {:else}
+          <Play class="h-10 w-10" />
+        {/if}
       </button>
       <button
         class="flex h-20 items-center justify-center rounded-full bg-neutral-200 p-5 hover:bg-neutral-300"
+        on:click={() => {
+          sec = 0
+          running = false
+        }}
       >
         <TimerReset class="h-10 w-10" />
       </button>
