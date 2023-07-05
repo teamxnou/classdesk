@@ -35,7 +35,9 @@
       >
         <Play class="h-10 w-10" />
       </button>
-      <button class="flex h-20 items-center justify-center rounded-full bg-neutral-200 p-5 hover:bg-neutral-300">
+      <button
+        class="flex h-20 items-center justify-center rounded-full bg-neutral-200 p-5 hover:bg-neutral-300"
+      >
         <TimerReset class="h-10 w-10" />
       </button>
     </div>
