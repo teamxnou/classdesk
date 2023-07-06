@@ -1,13 +1,17 @@
 <script lang="ts">
+  import { slide } from 'svelte/transition'
+
   import Play from '~icons/lucide/Play'
   import Pause from '~icons/lucide/Pause'
   import TimerReset from '~icons/lucide/TimerReset'
   import Mic from '~icons/lucide/Mic'
+  import Hourglass from '~icons/lucide/Hourglass'
 
   let p = 0
   $: color = p < 50 ? '#22c55e' : p < 80 ? '#fde047' : '#ef4444'
 
   let running = false
+  let endAlarm = false
   let sec = 0
   $: formattedTime = new Date(sec * 1000).toISOString().substring(11, 19)
 
@@ -15,6 +19,9 @@
     window.setInterval(() => {
       if (running && sec > 0) {
         sec -= 1
+      } else if (running && sec == 0) {
+        running = false
+        endAlarm = true
       }
     }, 1000)
   }
@@ -76,3 +83,22 @@
     <div class="rounded-full transition duration-1000" style="background: {color}; width: {p}%;" />
   </div>
 </div>
+{#if endAlarm}
+  <div
+    class="absolute left-0 top-0 flex h-screen w-screen flex-col items-center justify-around bg-white py-24"
+    transition:slide={{ duration: 300 }}
+  >
+    <Hourglass class="h-40 w-40 animate-bounce text-blue-500" />
+    <h1 class="animate-pulse text-[17vw] font-black">끝났어요</h1>
+    <button
+      class="flex h-36 w-96 items-center justify-center rounded-full bg-orange-500 text-white hover:bg-orange-600"
+      on:click={() => {
+        endAlarm = false
+        sec = 0
+        running = false
+      }}
+    >
+      <TimerReset class="h-20 w-20" />
+    </button>
+  </div>
+{/if}
