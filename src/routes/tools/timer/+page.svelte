@@ -7,21 +7,51 @@
   import Mic from '~icons/lucide/Mic'
   import Hourglass from '~icons/lucide/Hourglass'
 
+  import beep from '../../../assets/beep.mp3'
+  import beephigh from '../../../assets/beephigh.mp3'
+
   let p = 0
   $: color = p < 50 ? '#22c55e' : p < 80 ? '#fde047' : '#ef4444'
 
   let running = false
   let endAlarm = false
+
+  let hour = 0
+  let min = 0
   let sec = 0
-  $: formattedTime = new Date(sec * 1000).toISOString().substring(11, 19)
+  $: {
+    if (hour < 0) hour = 0
+    if (min < 0) min = 0
+    if (sec < 0) sec = 0
+
+    if (min > 59) min = 59
+    if (hour > 99) hour = 99
+    if (sec > 59) sec = 59
+  }
+
+  let stopped = false
+  $: date = new Date(hour * 3600 * 1000 + min * 60 * 1000 + sec * 1000)
+
+  function updateTime() {
+    hour = Math.floor(date.getTime() / 3600 / 1000)
+    min = Math.floor((date.getTime() - hour * 3600 * 1000) / 60 / 1000)
+    sec = Math.floor((date.getTime() - hour * 3600 * 1000 - min * 60 * 1000) / 1000)
+  }
 
   if (typeof window !== 'undefined') {
     window.setInterval(() => {
-      if (running && sec > 0) {
-        sec -= 1
-      } else if (running && sec == 0) {
+      if (running && date.getTime() > 1300) {
+        date = new Date(date.getTime() - 1000)
+        updateTime()
+        stopped = false
+        if (date.getTime() < 3500) {
+          new Audio(beep).play()
+        }
+      } else if (running) {
+        new Audio(beephigh).play()
         running = false
         endAlarm = true
+        stopped = true
       }
     }, 1000)
   }
@@ -36,23 +66,53 @@
     />
   </div>
   <div class="flex grow items-center justify-center font-mono text-[17vw] font-extrabold">
-    {formattedTime}
+    {#if running}
+      {date.toISOString().substring(11, 19)}
+    {:else}
+      <input
+        type="number"
+        class="w-[22vw] rounded-3xl bg-transparent text-right leading-tight focus:outline-none"
+        class:bg-white={!running}
+        bind:value={hour}
+        disabled={running}
+      />
+      :
+      <input
+        type="number"
+        class="w-[22vw] rounded-3xl bg-transparent text-right leading-tight focus:outline-none"
+        class:bg-white={!running}
+        bind:value={min}
+        disabled={running}
+      />
+      :
+      <input
+        type="number"
+        class="w-[22vw] rounded-3xl bg-transparent text-right leading-tight focus:outline-none"
+        class:bg-white={!running}
+        bind:value={sec}
+        disabled={running}
+      />
+    {/if}
   </div>
   <div class="mb-10 flex items-center justify-around">
     <div class="flex gap-5">
-      {#each [1, 3, 5, 10, 20, 30] as min}
+      {#each [1, 3, 5, 10, 20, 30] as m}
         <button
           class="flex h-20 w-20 items-center justify-center rounded-full bg-neutral-200 p-5 font-mono text-4xl hover:bg-neutral-300"
-          on:click={() => (sec = min * 60)}
+          on:click={() => {
+            hour = 0
+            min = m
+            sec = 0
+          }}
         >
-          {min}
+          {m}
         </button>
       {/each}
     </div>
     <div class="flex gap-5">
       <button
-        class="flex h-20 w-52 items-center justify-center rounded-full bg-orange-500 p-5 text-white hover:bg-orange-600 disabled:hover:bg-orange-400 disabled:bg-orange-400 disabled:cursor-not-allowed"
-        disabled={!running && sec == 0}
+        class="flex h-20 w-52 items-center justify-center rounded-full bg-orange-500 p-5 text-white hover:bg-orange-600 disabled:cursor-not-allowed disabled:bg-orange-400 disabled:hover:bg-orange-400"
+        disabled={!running && date.getTime() == 0}
         on:click={() => (running = !running)}
       >
         {#if running}
@@ -64,8 +124,10 @@
       <button
         class="flex h-20 items-center justify-center rounded-full bg-neutral-200 p-5 hover:bg-neutral-300"
         on:click={() => {
-          sec = 0
+          date = new Date(0)
+          updateTime()
           running = false
+          stopped = true
         }}
       >
         <TimerReset class="h-10 w-10" />
@@ -94,8 +156,10 @@
       class="flex h-36 w-96 items-center justify-center rounded-full bg-orange-500 text-white hover:bg-orange-600"
       on:click={() => {
         endAlarm = false
-        sec = 0
+        date = new Date(0)
+        updateTime()
         running = false
+        stopped = true
       }}
     >
       <TimerReset class="h-20 w-20" />
