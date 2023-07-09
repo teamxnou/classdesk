@@ -5,7 +5,8 @@ export default {
     extend: {
       fontFamily: {
         sans: ['Pretendard', 'sans-serif'],
-        mono: ['Space\\ Mono', 'monospace']
+        mono: ['Space\\ Mono', 'monospace'],
+        monoalt: ['Azeret Mono', 'monospace']
       }
     }
   },
