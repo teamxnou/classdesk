@@ -5,13 +5,14 @@
   import Pause from '~icons/lucide/Pause'
   import TimerReset from '~icons/lucide/TimerReset'
   import Mic from '~icons/lucide/Mic'
+  import AlertCircle from '~icons/lucide/AlertCircle'
   import Hourglass from '~icons/lucide/Hourglass'
 
   import beep from '../../../assets/beep.mp3'
   import beephigh from '../../../assets/beephigh.mp3'
 
   let p = 0
-  $: color = p < 50 ? '#22c55e' : p < 80 ? '#fde047' : '#ef4444'
+  $: color = p < 40 ? '#22c55e' : p < 70 ? '#fde047' : '#ef4444'
 
   let running = false
   let endAlarm = false
@@ -54,6 +55,45 @@
         stopped = true
       }
     }, 1000)
+  }
+  
+  let audioError = false
+  let meterOn = false
+  let loudCount = 0
+  let prevCounted = false
+  let loudDuration = 0
+  function runMeter() {
+    navigator.mediaDevices
+      .getUserMedia({ audio: true })
+      .then((stream) => {
+        const audioCtx = new AudioContext()
+        const analyser = audioCtx.createAnalyser()
+        const source = audioCtx.createMediaStreamSource(stream)
+        source.connect(analyser)
+        analyser.fftSize = 32
+        const bufferLength = analyser.frequencyBinCount
+        const dataArray = new Uint8Array(bufferLength)
+
+        function draw() {
+          analyser.getByteFrequencyData(dataArray)
+          const avg = dataArray.reduce((a, b) => a + b, 0) / bufferLength
+          p = Math.floor(avg / 2)
+          if (p > 90 && !prevCounted && loudDuration > 10) {
+            loudCount++
+            prevCounted = true
+          } else if (p > 90 && !prevCounted) {
+            loudDuration++
+          } else if (p < 90) {
+            prevCounted = false
+            loudDuration = 0
+          }
+          if (meterOn) requestAnimationFrame(draw)
+        }
+        draw()
+      })
+      .catch(() => {
+        audioError = true
+      })
   }
 </script>
 
@@ -135,14 +175,34 @@
     </div>
   </div>
   <button
-    class="absolute bottom-5 left-5 flex h-20 w-20 items-center justify-center rounded-full bg-white hover:bg-neutral-50"
+    class="absolute bottom-5 left-5 flex h-20 w-20 items-center justify-center rounded-full bg-white hover:bg-neutral-50 disabled:cursor-not-allowed disabled:bg-neutral-100 disabled:hover:bg-neutral-100"
+    disabled={audioError}
+    on:click={() => {
+      meterOn = !meterOn
+      if (meterOn) runMeter()
+      else if (!meterOn) {
+        requestAnimationFrame(() => {
+          p = 0
+          loudCount = 0
+        })
+      }
+    }}
   >
-    <Mic class="h-10 w-10" />
+    {#if audioError}
+      <AlertCircle class="h-10 w-10" />
+    {:else if meterOn}
+      <span>{loudCount}</span>
+    {:else}
+      <Mic class="h-10 w-10" />
+    {/if}
   </button>
   <div
     class="flex h-20 w-full rounded-full bg-gradient-to-r from-green-100 via-yellow-100 to-red-100"
   >
-    <div class="rounded-full transition duration-1000" style="background: {color}; width: {p}%;" />
+    <div
+      class="min-w-[5rem] rounded-full transition duration-300"
+      style="background: {color}; width: {p}%;"
+    />
   </div>
 </div>
 {#if endAlarm}
