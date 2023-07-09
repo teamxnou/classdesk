@@ -111,7 +111,7 @@
       class="placeholder:font-regular w-full bg-transparent text-center placeholder-neutral-400 focus:outline-none"
     />
   </div>
-  <div class="flex grow items-center justify-center font-mono text-[17vw] font-extrabold">
+  <div class="flex grow items-center justify-center font-monoalt text-[17vw] font-semibold">
     {#if running}
       {date.toISOString().substring(11, 19)}
     {:else}
@@ -144,7 +144,7 @@
     <div class="flex gap-5">
       {#each [1, 3, 5, 10, 20, 30] as m}
         <button
-          class="flex h-20 w-20 items-center justify-center rounded-full bg-neutral-200 p-5 font-mono text-4xl hover:bg-neutral-300"
+          class="flex h-20 w-20 items-center justify-center rounded-full bg-neutral-200 p-5 font-monoalt text-4xl hover:bg-neutral-300"
           on:click={() => {
             hour = 0
             min = m
