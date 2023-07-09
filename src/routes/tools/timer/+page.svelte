@@ -59,7 +59,7 @@
       }
     }, 1000)
   }
-  
+
   let audioError = false
   let meterOn = false
   let loudCount = 0
