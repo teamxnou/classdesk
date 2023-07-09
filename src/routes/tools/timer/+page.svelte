@@ -6,7 +6,10 @@
   import TimerReset from '~icons/lucide/TimerReset'
   import Mic from '~icons/lucide/Mic'
   import AlertCircle from '~icons/lucide/AlertCircle'
+  import Settings2 from '~icons/lucide/Settings-2'
   import Hourglass from '~icons/lucide/Hourglass'
+
+  import { settings } from '../../../stores/stores'
 
   import beep from '../../../assets/beep.mp3'
   import beephigh from '../../../assets/beephigh.mp3'
@@ -62,6 +65,9 @@
   let loudCount = 0
   let prevCounted = false
   let loudDuration = 0
+
+  let sensSetting = false
+  let sensitivity = $settings.volumeMeterSensitivity
   function runMeter() {
     navigator.mediaDevices
       .getUserMedia({ audio: true })
@@ -77,7 +83,7 @@
         function draw() {
           analyser.getByteFrequencyData(dataArray)
           const avg = dataArray.reduce((a, b) => a + b, 0) / bufferLength
-          p = Math.floor(avg / 2)
+          p = Math.floor(avg / sensitivity)
           if (p > 90 && !prevCounted && loudDuration > 10) {
             loudCount++
             prevCounted = true
@@ -174,28 +180,41 @@
       </button>
     </div>
   </div>
-  <button
-    class="absolute bottom-5 left-5 flex h-20 w-20 items-center justify-center rounded-full bg-white hover:bg-neutral-50 disabled:cursor-not-allowed disabled:bg-neutral-100 disabled:hover:bg-neutral-100"
-    disabled={audioError}
-    on:click={() => {
-      meterOn = !meterOn
-      if (meterOn) runMeter()
-      else if (!meterOn) {
-        requestAnimationFrame(() => {
-          p = 0
-          loudCount = 0
-        })
-      }
-    }}
-  >
-    {#if audioError}
-      <AlertCircle class="h-10 w-10" />
-    {:else if meterOn}
-      <span>{loudCount}</span>
-    {:else}
-      <Mic class="h-10 w-10" />
+  <div class="absolute bottom-5 left-5 flex rounded-full bg-white">
+    <button
+      class="flex h-20 w-20 items-center justify-center rounded-full hover:bg-neutral-50 disabled:cursor-not-allowed disabled:bg-neutral-100 disabled:hover:bg-neutral-100"
+      disabled={audioError}
+      on:click={() => {
+        meterOn = !meterOn
+        if (meterOn) runMeter()
+        else if (!meterOn) {
+          requestAnimationFrame(() => {
+            p = 0
+            loudCount = 0
+          })
+        }
+      }}
+    >
+      {#if audioError}
+        <AlertCircle class="h-10 w-10" />
+      {:else if meterOn}
+        <span class="font-mono text-5xl">{loudCount}</span>
+      {:else}
+        <Mic class="h-10 w-10" />
+      {/if}
+    </button>
+    {#if meterOn}
+      <button
+        class="flex h-20 w-20 items-center justify-center rounded-full hover:bg-neutral-50 disabled:cursor-not-allowed disabled:bg-neutral-100 disabled:hover:bg-neutral-100"
+        transition:slide={{ axis: 'x' }}
+        on:click={() => {
+          sensSetting = !sensSetting
+        }}
+      >
+        <Settings2 class="h-10 w-10" />
+      </button>
     {/if}
-  </button>
+  </div>
   <div
     class="flex h-20 w-full rounded-full bg-gradient-to-r from-green-100 via-yellow-100 to-red-100"
   >
@@ -224,5 +243,27 @@
     >
       <TimerReset class="h-20 w-20" />
     </button>
+  </div>
+{/if}
+{#if sensSetting}
+  <div
+    class="absolute left-0 top-0 flex h-[calc(100vh-8rem)] w-screen flex-col items-center justify-around bg-white py-24"
+    transition:slide={{ duration: 300 }}
+  >
+    <h1 class="text-9xl font-bold">소음 감도</h1>
+    <div class="flex overflow-hidden rounded-full">
+      {#each [1, 2, 3, 4, 5] as m}
+        <button
+          class="flex h-20 w-20 items-center justify-center bg-neutral-100 p-5 font-mono text-4xl hover:bg-neutral-200"
+          class:bg-neutral-200={sensitivity == 6 - m}
+          on:click={() => {
+            sensitivity = 6 - m
+            settings.set({ ...$settings, volumeMeterSensitivity: sensitivity })
+          }}
+        >
+          {m}
+        </button>
+      {/each}
+    </div>
   </div>
 {/if}

@@ -5,6 +5,16 @@ const defaultFavorite = ['timer', 'whiteboardtext', 'randint', 'randname', 'rand
 export const favorite: Writable<string[]> = writable([])
 export const recent: Writable<string[]> = writable([])
 
+interface Settings {
+  volumeMeterSensitivity: number
+}
+
+const defaultSettings = {
+  volumeMeterSensitivity: 4
+}
+
+export const settings: Writable<Settings> = writable({ ...defaultSettings })
+
 if (typeof window !== 'undefined') {
   const fav = localStorage.getItem('favorite')
   const rec = localStorage.getItem('recent')
@@ -19,5 +29,12 @@ if (typeof window !== 'undefined') {
   recent.subscribe((value) => {
     if (value.length == 0) return
     localStorage.setItem('recent', JSON.stringify(value))
+  })
+
+  const loadedSettings = localStorage.getItem('settings') ?? '{}'
+  if (settings) settings.set({ ...defaultSettings, ...JSON.parse(loadedSettings) })
+  settings.subscribe((value) => {
+    if (Object.keys(value).length == 0) return
+    localStorage.setItem('settings', JSON.stringify(value))
   })
 }
