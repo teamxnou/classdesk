@@ -21,7 +21,7 @@ const defaultSettings = {
   volumeMeterSensitivity: 4,
   wbtShowTitle: true,
   wbtShowDate: false,
-  wbtTextColor: 'black'
+  wbtTextColor: '#000'
 }
 
 export const settings: Writable<Settings> = writable({ ...defaultSettings })
