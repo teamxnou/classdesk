@@ -34,7 +34,7 @@
       >
         <input
           type="text"
-          class="grow text-6xl font-bold"
+          class="grow bg-transparent text-6xl font-bold"
           disabled
           value={date}
           hidden={!$settings.wbtShowDate}
