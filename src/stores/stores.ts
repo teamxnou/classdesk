@@ -14,12 +14,14 @@ interface Settings {
   volumeMeterSensitivity: number
   wbtShowTitle: boolean
   wbtShowDate: boolean
+  wbtTextColor: string
 }
 
 const defaultSettings = {
   volumeMeterSensitivity: 4,
   wbtShowTitle: true,
-  wbtShowDate: false
+  wbtShowDate: false,
+  wbtTextColor: 'black'
 }
 
 export const settings: Writable<Settings> = writable({ ...defaultSettings })
