@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { slide } from 'svelte/transition'
+
   import Calander from '~icons/lucide/Calendar'
   import ZoomOut from '~icons/lucide/ZoomOut'
   import ZoomIn from '~icons/lucide/ZoomIn'
@@ -13,39 +15,48 @@
     weekday: 'long'
   })
   let showDate = false
+  let showTitle = true
 </script>
 
-<div class="flex h-screen w-screen flex-col gap-5 bg-neutral-100 p-12">
-  <div class="flex w-full items-center justify-between gap-10">
-    <div
-      class="flex grow cursor-default"
-      on:click={() => (showDate = false)}
-      on:keydown={(e) => e.key === '/' && (showDate = false)}
-      role="button"
-      tabindex="0"
-    >
-      <input type="text" class="grow text-6xl font-bold" disabled value={date} hidden={!showDate} />
-      <input
-        type="text"
-        class="grow bg-transparent text-6xl font-bold placeholder-neutral-400 focus:outline-none"
-        placeholder="제목을 입력하세요..."
-        hidden={showDate}
-      />
-    </div>
-    <label>
-      <input type="checkbox" class="peer hidden" bind:checked={showDate} />
+<div class="flex h-screen w-screen flex-col bg-neutral-100 p-12">
+  {#if showTitle}
+    <div class="mb-5 flex w-full items-center justify-between gap-10" transition:slide>
       <div
-        class="group flex cursor-pointer rounded-lg p-3 transition-[color] duration-150 hover:bg-neutral-200 peer-checked:text-blue-500 peer-checked:hover:bg-blue-100 peer-checked:hover:text-blue-600"
+        class="flex grow cursor-default"
+        on:click={() => (showDate = false)}
+        on:keydown={(e) => e.key === '/' && (showDate = false)}
+        role="button"
+        tabindex="0"
       >
-        <span
-          class="mr-2 hidden font-semibold opacity-0 transition duration-150 group-hover:inline group-hover:opacity-100"
-        >
-          날짜 보이기
-        </span>
-        <Calander class="h-6 w-6" />
+        <input
+          type="text"
+          class="grow text-6xl font-bold"
+          disabled
+          value={date}
+          hidden={!showDate}
+        />
+        <input
+          type="text"
+          class="grow bg-transparent text-6xl font-bold placeholder-neutral-400 focus:outline-none"
+          placeholder="제목을 입력하세요..."
+          hidden={showDate}
+        />
       </div>
-    </label>
-  </div>
+      <label>
+        <input type="checkbox" class="peer hidden" bind:checked={showDate} />
+        <div
+          class="group flex cursor-pointer rounded-lg p-3 transition-[color] duration-150 hover:bg-neutral-200 peer-checked:text-blue-500 peer-checked:hover:bg-blue-100 peer-checked:hover:text-blue-600"
+        >
+          <span
+            class="mr-2 hidden font-semibold opacity-0 transition duration-150 group-hover:inline group-hover:opacity-100"
+          >
+            날짜 보이기
+          </span>
+          <Calander class="h-6 w-6" />
+        </div>
+      </label>
+    </div>
+  {/if}
   <textarea
     class="w-full grow resize-none bg-transparent text-5xl leading-normal placeholder-neutral-400 focus:outline-none"
     placeholder="내용을 입력하세요..."
@@ -72,7 +83,10 @@
       <ZoomIn class="h-6 w-6" />
     </button>
     <div class="mx-1 h-5 w-0 border-r" />
-    <button class="rounded-xl p-3 hover:bg-neutral-100">
+    <button
+      class="rounded-xl p-3 hover:bg-neutral-100"
+      on:click={() => (showTitle = !showTitle)}
+    >
       <Type class="h-6 w-6" />
     </button>
     <div class="mx-1 h-5 w-0 border-r" />
