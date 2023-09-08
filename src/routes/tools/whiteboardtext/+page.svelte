@@ -8,23 +8,23 @@
   import Trash from '~icons/lucide/Trash'
   import Clipboard from '~icons/lucide/Clipboard'
 
+  import { settings } from '../../../stores/stores'
+
   const date = new Date().toLocaleDateString('ko-KR', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
     weekday: 'long'
   })
-  let showDate = false
-  let showTitle = true
 </script>
 
 <div class="flex h-screen w-screen flex-col bg-neutral-100 p-12">
-  {#if showTitle}
+  {#if $settings.wbtShowTitle}
     <div class="mb-5 flex w-full items-center justify-between gap-10" transition:slide>
       <div
         class="flex grow cursor-default"
-        on:click={() => (showDate = false)}
-        on:keydown={(e) => e.key === '/' && (showDate = false)}
+        on:click={() => ($settings.wbtShowDate = false)}
+        on:keydown={(e) => e.key === '/' && ($settings.wbtShowDate = false)}
         role="button"
         tabindex="0"
       >
@@ -33,17 +33,22 @@
           class="grow text-6xl font-bold"
           disabled
           value={date}
-          hidden={!showDate}
+          hidden={!$settings.wbtShowDate}
         />
         <input
           type="text"
           class="grow bg-transparent text-6xl font-bold placeholder-neutral-400 focus:outline-none"
           placeholder="제목을 입력하세요..."
-          hidden={showDate}
+          hidden={$settings.wbtShowDate}
         />
       </div>
       <label>
-        <input type="checkbox" class="peer hidden" bind:checked={showDate} />
+        <input
+          type="checkbox"
+          class="peer hidden"
+          checked={$settings.wbtShowDate}
+          on:change={() => settings.set({ ...$settings, wbtShowDate: !$settings.wbtShowDate })}
+        />
         <div
           class="flex cursor-pointer rounded-lg p-3 transition-[color] duration-150 hover:bg-neutral-200 peer-checked:text-blue-500 peer-checked:hover:bg-blue-100 peer-checked:hover:text-blue-600"
         >
@@ -80,7 +85,7 @@
     <div class="mx-1 h-5 w-0 border-r" />
     <button
       class="rounded-xl p-3 hover:bg-neutral-100"
-      on:click={() => (showTitle = !showTitle)}
+      on:click={() => settings.set({ ...$settings, wbtShowTitle: !$settings.wbtShowTitle })}
     >
       <Type class="h-6 w-6" />
     </button>

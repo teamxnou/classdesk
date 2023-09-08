@@ -5,12 +5,21 @@ const defaultFavorite = ['timer', 'whiteboardtext', 'randint', 'randname', 'rand
 export const favorite: Writable<string[]> = writable([])
 export const recent: Writable<string[]> = writable([])
 
+/*
+  # Definitions
+  - wbt: whiteboardtext
+*/
+
 interface Settings {
   volumeMeterSensitivity: number
+  wbtShowTitle: boolean
+  wbtShowDate: boolean
 }
 
 const defaultSettings = {
-  volumeMeterSensitivity: 4
+  volumeMeterSensitivity: 4,
+  wbtShowTitle: true,
+  wbtShowDate: false
 }
 
 export const settings: Writable<Settings> = writable({ ...defaultSettings })
