@@ -24,7 +24,9 @@
   let copyAnimation = false
 
   function zoom(amount: number) {
-    settings.set({ ...$settings, wbtFontSize: $settings.wbtFontSize + amount })
+    let res = $settings.wbtFontSize + amount
+    if (res < 0.5 || res > 2.5) return
+    settings.set({ ...$settings, wbtFontSize: res })
   }
 
   function copy() {
@@ -119,7 +121,10 @@
         <Clipboard class="h-6 w-6" />
       {/if}
     </button>
-    <button class="rounded-xl p-3 text-red-500 hover:bg-red-100 hover:text-red-600">
+    <button
+      class="rounded-xl p-3 text-red-500 hover:bg-red-100 hover:text-red-600"
+      on:click={() => confirm('내용을 지우시겠어요?') && (content = '')}
+    >
       <Trash class="h-6 w-6" />
     </button>
   </div>
