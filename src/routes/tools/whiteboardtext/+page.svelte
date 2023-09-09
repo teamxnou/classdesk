@@ -7,6 +7,7 @@
   import Type from '~icons/lucide/Type'
   import Trash from '~icons/lucide/Trash'
   import Clipboard from '~icons/lucide/Clipboard'
+  import Check from '~icons/lucide/Check'
 
   import { settings } from '../../../stores/stores'
 
@@ -17,6 +18,16 @@
     weekday: 'long'
   })
   const colors = ['#000', '#dc2626', '#f97316', '#84cc16', '#2563eb', '#7c3aed', '#fff']
+
+  $: title = $settings.wbtShowDate ? date : ''
+  let content = ''
+  let copyAnimation = false
+
+  function copy() {
+    navigator.clipboard.writeText(`${title}\n${content}`)
+    copyAnimation = true
+    setTimeout(() => (copyAnimation = false), 1000)
+  }
 </script>
 
 <div
@@ -93,8 +104,12 @@
       <Type class="h-6 w-6" />
     </button>
     <div class="mx-1 h-5 w-0 border-r" />
-    <button class="rounded-xl p-3 hover:bg-neutral-100">
-      <Clipboard class="h-6 w-6" />
+    <button class="rounded-xl p-3 hover:bg-neutral-100" on:click={copy}>
+      {#if copyAnimation}
+        <Check class="text-green h-6 w-6 text-green-500" />
+      {:else}
+        <Clipboard class="h-6 w-6" />
+      {/if}
     </button>
     <button class="rounded-xl p-3 text-red-500 hover:bg-red-100 hover:text-red-600">
       <Trash class="h-6 w-6" />
