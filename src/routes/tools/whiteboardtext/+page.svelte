@@ -37,7 +37,7 @@
 </script>
 
 <div
-  class="flex h-screen w-screen flex-col bg-neutral-100 p-12 transition duration-150"
+  class="flex h-screen w-screen flex-col bg-neutral-100 p-12"
   style="
     color: {$settings.wbtTextColor};
     --placeholder-text-color: {$settings.wbtTextColor};
@@ -55,14 +55,14 @@
       >
         <input
           type="text"
-          class="grow bg-transparent text-6xl font-bold"
+          class="grow bg-transparent text-6xl font-bold transition-[color] duration-150 placeholder:duration-150"
           disabled
           value={date}
           hidden={!$settings.wbtShowDate}
         />
         <input
           type="text"
-          class="placeholder-text-color grow bg-transparent text-6xl font-bold focus:outline-none"
+          class="placeholder-text-color grow bg-transparent text-6xl font-bold transition-[color] duration-150 placeholder:duration-150 focus:outline-none"
           placeholder="제목을 입력하세요..."
           hidden={$settings.wbtShowDate}
         />
@@ -75,7 +75,7 @@
           on:change={() => settings.set({ ...$settings, wbtShowDate: !$settings.wbtShowDate })}
         />
         <div
-          class="flex cursor-pointer rounded-lg p-3 transition-[color] duration-150 hover:bg-neutral-200 peer-checked:text-blue-500 peer-checked:hover:bg-blue-100 peer-checked:hover:text-blue-600"
+          class="flex cursor-pointer rounded-lg p-3 transition-[color] duration-150 placeholder:duration-150 hover:bg-neutral-200 peer-checked:text-blue-500 peer-checked:hover:bg-blue-100 peer-checked:hover:text-blue-600"
         >
           <Calander class="h-6 w-6" />
         </div>
@@ -83,7 +83,7 @@
     </div>
   {/if}
   <textarea
-    class="placeholder-text-color w-full grow resize-none bg-transparent text-5xl leading-normal focus:outline-none"
+    class="placeholder-text-color w-full grow resize-none bg-transparent text-5xl leading-normal transition-[color] duration-150 focus:outline-none"
     placeholder="내용을 입력하세요..."
   />
 </div>
