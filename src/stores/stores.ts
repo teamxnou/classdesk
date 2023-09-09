@@ -15,13 +15,15 @@ interface Settings {
   wbtShowTitle: boolean
   wbtShowDate: boolean
   wbtTextColor: string
+  wbtFontSize: number
 }
 
 const defaultSettings = {
   volumeMeterSensitivity: 4,
   wbtShowTitle: true,
   wbtShowDate: false,
-  wbtTextColor: '#000'
+  wbtTextColor: '#000',
+  wbtFontSize: 1
 }
 
 export const settings: Writable<Settings> = writable({ ...defaultSettings })

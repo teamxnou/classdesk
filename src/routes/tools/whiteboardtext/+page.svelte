@@ -23,6 +23,10 @@
   let content = ''
   let copyAnimation = false
 
+  function zoom(amount: number) {
+    settings.set({ ...$settings, wbtFontSize: $settings.wbtFontSize + amount })
+  }
+
   function copy() {
     navigator.clipboard.writeText(`${title}\n${content}`)
     copyAnimation = true
@@ -32,7 +36,11 @@
 
 <div
   class="flex h-screen w-screen flex-col bg-neutral-100 p-12 transition duration-150"
-  style="color: {$settings.wbtTextColor}; --placeholder-text-color: {$settings.wbtTextColor}"
+  style="
+    color: {$settings.wbtTextColor};
+    --placeholder-text-color: {$settings.wbtTextColor};
+    --zoom-level: {$settings.wbtFontSize};
+  "
 >
   {#if $settings.wbtShowTitle}
     <div class="mb-5 flex w-full items-center justify-between gap-10" transition:slide>
@@ -90,10 +98,10 @@
     {/each}
   </div>
   <div class="flex items-center">
-    <button class="rounded-xl p-3 hover:bg-neutral-100">
+    <button class="rounded-xl p-3 hover:bg-neutral-100" on:click={() => zoom(-0.3)}>
       <ZoomOut class="h-6 w-6" />
     </button>
-    <button class="rounded-xl p-3 hover:bg-neutral-100">
+    <button class="rounded-xl p-3 hover:bg-neutral-100" on:click={() => zoom(0.3)}>
       <ZoomIn class="h-6 w-6" />
     </button>
     <div class="mx-1 h-5 w-0 border-r" />
@@ -118,6 +126,12 @@
 </div>
 
 <style>
+  input {
+    font-size: calc(3.75rem * var(--zoom-level));
+  }
+  textarea {
+    font-size: calc(3rem * var(--zoom-level));
+  }
   .placeholder-text-color::placeholder {
     color: var(--placeholder-text-color);
     opacity: 0.5;
